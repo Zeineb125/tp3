@@ -6,7 +6,10 @@ import (
 	"testing"
 )
 
-func TestHelloHandler(t *testing.T) {
+func TestServer_ServeHTTP(t *testing.T) {
+	s := &Server{} // Create an instance of your Server type
+
+	// Create a test request
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
 		t.Fatal(err)
@@ -15,8 +18,8 @@ func TestHelloHandler(t *testing.T) {
 	// Create a ResponseRecorder to record the response.
 	rr := httptest.NewRecorder()
 
-	// Call the helloHandler function with the created Request and ResponseRecorder.
-	helloHandler(rr, req)
+	// Call the ServeHTTP method with the created Request and ResponseRecorder.
+	s.ServeHTTP(rr, req)
 
 	// Check the response status code.
 	if status := rr.Code; status != http.StatusOK {
@@ -24,7 +27,7 @@ func TestHelloHandler(t *testing.T) {
 	}
 
 	// Check the response body.
-	expected := "Hello World"
+	expected := `{"message": "hello world"}`
 	if rr.Body.String() != expected {
 		t.Errorf("handler returned unexpected body: got %v want %v", rr.Body.String(), expected)
 	}
