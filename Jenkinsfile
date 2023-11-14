@@ -42,9 +42,6 @@ pipeline {
            }
            steps{
               dir('${GOPATH}/src/hello-world') {
-                  // Build the Go application
-                  sh 'go build'
-                  // Build the Docker image
                   sh 'docker build -t magalixcorp/k8scicd:10 .'
               }
                script {
