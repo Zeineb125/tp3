@@ -41,9 +41,6 @@ pipeline {
                registryCredential = 'dockerhub'
            }
            steps{
-              dir('${GOPATH}/src/hello-world') {
-                  sh 'docker build -t magalixcorp/k8scicd:10 .'
-              }
                script {
                    def appimage = docker.build registry + ":$BUILD_NUMBER"
                    docker.withRegistry( '', registryCredential ) {
