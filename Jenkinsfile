@@ -28,12 +28,6 @@ pipeline {
                }
            }
            steps {    
-              dir('${GOPATH}/src/hello-world') {
-                  // Build the Go application
-                  sh 'go build'
-                  // Build the Docker image
-                  sh 'docker build -t magalixcorp/k8scicd:10 .'
-              }
                // Create our project directory.
                sh 'mkdir -p ${GOPATH}/src/hello-world'
                sh 'cd ${GOPATH}/src/hello-world && go mod init example.com/hello-world'
@@ -47,6 +41,12 @@ pipeline {
                registryCredential = 'dockerhub'
            }
            steps{
+              dir('${GOPATH}/src/hello-world') {
+                  // Build the Go application
+                  sh 'go build'
+                  // Build the Docker image
+                  sh 'docker build -t magalixcorp/k8scicd:10 .'
+              }
                script {
                    def appimage = docker.build registry + ":$BUILD_NUMBER"
                    docker.withRegistry( '', registryCredential ) {
